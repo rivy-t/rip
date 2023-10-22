@@ -8,8 +8,9 @@ extern crate time;
 extern crate walkdir;
 
 use clap::{App, Arg};
+// use std::fs::metadata;
 use std::io::{BufRead, BufReader, Read, Write};
-use std::os::unix::fs::{FileTypeExt, PermissionsExt};
+// use std::os::unix::fs::PermissionsExt;
 use std::path::{Path, PathBuf};
 use std::{env, fs, io};
 use walkdir::WalkDir;
@@ -115,7 +116,9 @@ Send files to the graveyard (/tmp/graveyard-$USER by default) instead of unlinki
             env
         } else {
             format!("{}-{}", GRAVEYARD, get_user())
-        }}.into();
+        }
+    }
+    .into();
 
     if matches.is_present("decompose") {
         if prompt_yes("Really unlink the entire graveyard?") {
@@ -397,15 +400,16 @@ fn copy_file<S: AsRef<Path>, D: AsRef<Path>>(source: S, dest: D) -> io::Result<(
             // println!("Failed to copy {} to {}", source.display(), dest.display());
             return Err(e);
         }
-    } else if filetype.is_fifo() {
-        let mode = metadata.permissions().mode();
-        std::process::Command::new("mkfifo")
-            .arg(dest)
-            .arg("-m")
-            .arg(mode.to_string());
-    } else if filetype.is_symlink() {
-        let target = fs::read_link(source)?;
-        std::os::unix::fs::symlink(target, dest)?;
+    // } else if filetype.is_fifo() {
+    //     let mode = metadata.permissions().mode();
+    //     std::process::Command::new("mkfifo")
+    //         .arg(dest)
+    //         .arg("-m")
+    //         .arg(mode.to_string());
+    // } else if filetype.is_symlink() {
+    //     let target = fs::read_link(source)?;
+
+    //     std::os::unix::fs::symlink(target, dest)?;
     } else if let Err(e) = fs::copy(source, dest) {
         // Special file: Try copying it as normal, but this probably won't work
         println!("Non-regular file or directory: {}", source.display());
