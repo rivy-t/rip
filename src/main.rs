@@ -329,7 +329,7 @@ where
 fn bury<S: AsRef<Path>, D: AsRef<Path>>(source: S, dest: D) -> Result<()> {
     let (source, dest) = (source.as_ref(), dest.as_ref());
     // Try a simple rename, which will only work within the same mount point.
-    // Trying to rename across filesystems will throw errno 18.
+    // Trying to rename across file systems will throw with error == 18.
     if fs::rename(source, dest).is_ok() {
         return Ok(());
     }
