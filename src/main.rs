@@ -1,4 +1,9 @@
 // -*- compile-command: "cargo build" -*-
+
+// spell-checker:ignore (deps) walkdir
+// spell-checker:ignore (rust/lib) canonicalize mkfifo
+// spell-checker:ignore (app/options) unbury gravepath
+
 #[macro_use]
 extern crate clap;
 extern crate core;

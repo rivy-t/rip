@@ -1,3 +1,5 @@
+# spell-checker:ignore (rust/cargo) autobins
+
 [package]
 edition = '2018'
 name = "rm-improved"
@@ -15,6 +17,7 @@ categories = ["command-line-utilities"]
 autobins = false
 
 [dependencies]
+# spell-checker:ignore (deps) walkdir
 clap = "2"
 walkdir = "1"
 time = "0.1"
