@@ -41,16 +41,16 @@ struct RecordItem<'a> {
 fn main() {
     if let Err(ref e) = run() {
         let stderr = &mut ::std::io::stderr();
-        let errmsg = "Error writing to stderr";
+        let error_msg = "Error writing to stderr";
 
-        writeln!(stderr, "error: {}", e).expect(errmsg);
+        writeln!(stderr, "error: {}", e).expect(error_msg);
 
         for e in e.iter().skip(1) {
-            writeln!(stderr, "caused by: {}", e).expect(errmsg);
+            writeln!(stderr, "caused by: {}", e).expect(error_msg);
         }
 
         if let Some(backtrace) = e.backtrace() {
-            writeln!(stderr, "backtrace: {:?}", backtrace).expect(errmsg);
+            writeln!(stderr, "backtrace: {:?}", backtrace).expect(error_msg);
         }
 
         ::std::process::exit(1);
